@@ -1,6 +1,13 @@
 <template>
   <lightning-card title={title} icon-name={iconName}>
+    <div lwc:if={loading} class="slds-spinner_container">
+      <lightning-spinner
+        alternative-text="Loading"
+        size="small"
+      ></lightning-spinner>
+    </div>
     <div
+      lwc:else
       class="slds-theme_default slds-datepicker"
       aria-label="Date Picker"
       aria-describedby="datepicker-desc"
@@ -30,5 +37,12 @@
         </tbody>
       </table>
     </div>
+    <lightning-button-icon
+      variant="neutral"
+      title="Refresh"
+      onclick={refreshHandler}
+      icon-name="utility:refresh"
+      slot="actions"
+    ></lightning-button-icon>
   </lightning-card>
 </template>

@@ -1,11 +1,12 @@
 import { api, track, LightningElement, wire } from "lwc";
-import defaultTemplate from "./defaultTemplate";
+import { refreshApex } from "@salesforce/apex";
 import EVENT_CREATED_DATE_FIELD from "@salesforce/schema/Event.CreatedDate";
 import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
 import EVENT_START_DATE_FIELD from "@salesforce/schema/Event.StartDateTime";
 import EVENT_SUBJECT_FIELD from "@salesforce/schema/Event.Subject";
-import lightningCardTemplate from "./cardTemplate";
 import getRecords from "@salesforce/apex/CalendarController.getRecords";
+import defaultTemplate from "./defaultTemplate";
+import lightningCardTemplate from "./cardTemplate";
 
 export default class RecordCalendar extends LightningElement {
   @api iconName = "standard:event";
@@ -16,6 +17,7 @@ export default class RecordCalendar extends LightningElement {
   @api useLightningCard = false;
   @track weeks = [];
   eventData = [];
+  loading = false;
 
   @api
   get value() {
@@ -55,6 +57,10 @@ export default class RecordCalendar extends LightningElement {
     return this.useLightningCard ? lightningCardTemplate : defaultTemplate;
   }
 
+  connectedCallback() {
+    this.loading = true;
+  }
+
   @wire(getRecords, {
     parentRecordId: "$recordId",
     relatedListId: "$relatedListName",
@@ -68,7 +74,10 @@ export default class RecordCalendar extends LightningElement {
   wiredRelatedEvents({ error, data }) {
     if (data) {
       this.eventData = data;
+
       this._processEventData(data);
+
+      this.loading = false;
     } else if (error) {
       console.error("Error fetching related events:", error);
     }
@@ -195,5 +204,11 @@ export default class RecordCalendar extends LightningElement {
 
     const result = classes.join(" ");
     return result;
+  }
+
+  refreshHandler() {
+    this.loading = true;
+
+    refreshApex(this.eventData);
   }
 }

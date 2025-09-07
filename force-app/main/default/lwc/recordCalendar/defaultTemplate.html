@@ -1,5 +1,12 @@
 <template>
+  <div lwc:if={loading} class="slds-spinner_container">
+    <lightning-spinner
+      alternative-text="Loading"
+      size="small"
+    ></lightning-spinner>
+  </div>
   <div
+    lwc:else
     class="slds-box slds-theme_default slds-datepicker"
     aria-label="Date Picker"
     aria-describedby="datepicker-desc"
