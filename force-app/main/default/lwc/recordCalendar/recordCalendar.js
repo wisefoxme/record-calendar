@@ -1,19 +1,19 @@
-import { getRelatedListRecords } from "lightning/uiRelatedListApi";
-import { getFieldValue } from "lightning/uiRecordApi";
 import { api, LightningElement, wire } from "lwc";
-import EVENT_SUBJECT_FIELD from "@salesforce/schema/Event.Subject";
-import EVENT_START_DATE_FIELD from "@salesforce/schema/Event.StartDateTime";
-import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
-import EVENT_CREATED_DATE_FIELD from "@salesforce/schema/Event.CreatedDate";
+import { getFieldValue } from "lightning/uiRecordApi";
+import { getRelatedListRecords } from "lightning/uiRelatedListApi";
 import defaultTemplate from "./defaultTemplate";
+import EVENT_CREATED_DATE_FIELD from "@salesforce/schema/Event.CreatedDate";
+import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
+import EVENT_START_DATE_FIELD from "@salesforce/schema/Event.StartDateTime";
+import EVENT_SUBJECT_FIELD from "@salesforce/schema/Event.Subject";
 import lightningCardTemplate from "./cardTemplate";
 
 export default class RecordCalendar extends LightningElement {
+  @api iconName = "standard:event";
   @api recordId;
   @api refDate = new Date();
   @api relatedListName = "Events";
   @api title = "Record Event Calendar";
-  @api iconName = "standard:event";
   @api useLightningCard = false;
 
   weeks = [];
