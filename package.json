@@ -41,8 +41,7 @@
     "prepare": "husky || true",
     "precommit": "lint-staged",
     "postinstall": "scripts/postinstall.js",
-    "posti": "scripts/postinstall.js",
-    "uninstall": "scripts/uninstall.js"
+    "posti": "scripts/postinstall.js"
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^3.1.0",
