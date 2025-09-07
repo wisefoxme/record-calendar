@@ -7,4 +7,36 @@
     <targets>
         <target>lightning__RecordPage</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property
+        name="relatedListName"
+        type="String"
+        label="Related List API Name"
+        default="Events"
+        description="The API name of the related list to display."
+      />
+            <property
+        name="useLightningCard"
+        type="Boolean"
+        label="Use Lightning Card"
+        default="true"
+        description="Whether to use a Lightning Card for the component."
+      />
+            <property
+        name="title"
+        type="String"
+        label="Card Title"
+        default="Record Event Calendar"
+        description="The title of the Lightning Card."
+      />
+            <property
+        name="iconName"
+        type="String"
+        label="Card Icon Name"
+        default="standard:event"
+        description="The icon name for the Lightning Card."
+      />
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

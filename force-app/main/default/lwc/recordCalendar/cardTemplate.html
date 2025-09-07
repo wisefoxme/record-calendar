@@ -1,0 +1,34 @@
+<template>
+  <lightning-card title={title} icon-name={iconName}>
+    <div
+      class="slds-theme_default slds-datepicker"
+      aria-label="Date Picker"
+      aria-describedby="datepicker-desc"
+    >
+      <div id="datepicker-desc" class="slds-assistive-text">Choose a date</div>
+      <table
+        class="slds-table slds-table_cell-buffer"
+        role="grid"
+        aria-labelledby="calendar-heading"
+      >
+        <tbody>
+          <template for:each={weeks} for:item="week">
+            <tr key={week.weekNumber}>
+              <template for:each={week.days} for:item="day">
+                <td
+                  key={day.day}
+                  aria-selected="false"
+                  role="gridcell"
+                  class={day.css}
+                  aria-label={day.label}
+                >
+                  <span class="slds-day">{day.label}</span>
+                </td>
+              </template>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </lightning-card>
+</template>
