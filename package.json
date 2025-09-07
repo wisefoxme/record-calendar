@@ -42,7 +42,7 @@
     "precommit": "lint-staged",
     "postinstall": "scripts/postinstall.js",
     "posti": "scripts/postinstall.js",
-    "preuninstall": "scripts/preuninstall.js"
+    "uninstall": "scripts/uninstall.js"
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^3.1.0",
