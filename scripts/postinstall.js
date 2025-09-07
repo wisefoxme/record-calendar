@@ -22,9 +22,15 @@ function getDefaultPackagePath(sfRoot) {
   return defaultPackage.path;
 }
 
-function linkAll(sourceDir, destDir) {
-  // Create the wisefoxme destination directory if it doesn't exist
-  const wisefoxmeDestDir = path.join(destDir, "wisefoxme");
+function getPackageName() {
+  const packageJsonPath = path.resolve(__dirname, "..", "package.json");
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+  return packageJson.name.replace(/^@.*\//, ""); // Remove scope if present
+}
+
+function linkAll(sourceDir, destDir, packageName) {
+  // Create the wisefoxme destination directory with the package name if it doesn't exist
+  const wisefoxmeDestDir = path.join(destDir, "wisefoxme", packageName);
 
   if (!fs.existsSync(sourceDir)) {
     console.warn(`Source directory not found: ${sourceDir}`);
@@ -40,7 +46,18 @@ function linkAll(sourceDir, destDir) {
   // Link each item individually
   items.forEach((item) => {
     const sourcePath = path.join(sourceDir, item);
-    const destPath = path.join(wisefoxmeDestDir, item);
+
+    // Check if the path contains a "default" folder and adjust destination accordingly
+    const pathParts = item.split(path.sep);
+    const hasDefault = pathParts.includes("default");
+    const adjustedItem = hasDefault
+      ? pathParts.filter((part) => part !== "default").join(path.sep)
+      : item;
+
+    const destPath = path.join(wisefoxmeDestDir, adjustedItem);
+
+    // Ensure the parent directory of the destination exists
+    fs.mkdirSync(path.dirname(destPath), { recursive: true });
 
     // if link already exists, remove it
     try {
@@ -65,10 +82,13 @@ try {
   const defaultPackagePath = getDefaultPackagePath(sfRoot);
   const destRoot = path.join(sfRoot, defaultPackagePath);
   const sourceRoot = path.resolve(__dirname, "..", "force-app", "main");
+  const packageName = getPackageName();
 
-  linkAll(sourceRoot, destRoot);
+  linkAll(sourceRoot, destRoot, packageName);
 
-  console.log("✅ All components linked successfully.", destRoot);
+  console.log(
+    `✅ All components linked successfully to wisefoxme/${packageName} in ${destRoot}`
+  );
 } catch (error) {
   console.error("Error linking components:", error.message);
   process.exit(1);
