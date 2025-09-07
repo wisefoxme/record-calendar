@@ -3,6 +3,10 @@
   "private": false,
   "version": "1.0.0",
   "description": "A calendar Lightning Web Component for Salesforce apps.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wisefoxme/record-calendar.git"
+  },
   "scripts": {
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
