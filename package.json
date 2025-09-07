@@ -41,6 +41,7 @@
     "prepare": "husky || true",
     "precommit": "lint-staged",
     "postinstall": "node ./scripts/postinstall.js",
+    "posti": "node ./scripts/postinstall.js",
     "preuninstall": "node ./scripts/preuninstall.js"
   },
   "devDependencies": {
