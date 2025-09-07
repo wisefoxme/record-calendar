@@ -17,6 +17,7 @@ export default class RecordCalendar extends LightningElement {
   @api useLightningCard = false;
   @track weeks = [];
   eventData = [];
+  wiredEventResult;
   loading = false;
 
   @api
@@ -60,7 +61,6 @@ export default class RecordCalendar extends LightningElement {
   connectedCallback() {
     this.loading = true;
   }
-
   @wire(getRecords, {
     parentRecordId: "$recordId",
     relatedListId: "$relatedListName",
@@ -71,7 +71,10 @@ export default class RecordCalendar extends LightningElement {
     ],
     sortBy: EVENT_CREATED_DATE_FIELD.fieldApiName
   })
-  wiredRelatedEvents({ error, data }) {
+  wiredRelatedEvents(result) {
+    const { error, data } = result;
+    this.wiredEventResult = result;
+
     if (data) {
       this.eventData = data;
 
@@ -206,9 +209,11 @@ export default class RecordCalendar extends LightningElement {
     return result;
   }
 
-  refreshHandler() {
+  async refreshHandler() {
     this.loading = true;
 
-    refreshApex(this.eventData);
+    await refreshApex(this.wiredEventResult);
+
+    this.loading = false;
   }
 }
