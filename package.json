@@ -2,11 +2,33 @@
   "name": "@wisefoxme/record-calendar",
   "private": false,
   "version": "1.0.0",
+  "license": "BSD-3-Clause",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "A calendar Lightning Web Component for Salesforce apps.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wisefoxme/record-calendar.git"
   },
+  "author": {
+    "name": "Renato Oliveira",
+    "email": "renato.oliveira@dogeforce.com"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "salesforce",
+    "lwc",
+    "lightning-web-components",
+    "lightning",
+    "sfdx",
+    "calendar",
+    "event",
+    "component",
+    "wisefoxme"
+  ],
   "scripts": {
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
