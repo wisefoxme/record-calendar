@@ -40,9 +40,9 @@
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "prepare": "husky || true",
     "precommit": "lint-staged",
-    "postinstall": "node ./scripts/postinstall.js",
-    "posti": "node ./scripts/postinstall.js",
-    "preuninstall": "node ./scripts/preuninstall.js"
+    "postinstall": "scripts/postinstall.js",
+    "posti": "scripts/postinstall.js",
+    "preuninstall": "scripts/preuninstall.js"
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^3.1.0",
