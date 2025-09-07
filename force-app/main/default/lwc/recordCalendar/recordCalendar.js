@@ -1,12 +1,11 @@
-import { api, LightningElement, wire } from "lwc";
-import { getFieldValue } from "lightning/uiRecordApi";
-import { getRelatedListRecords } from "lightning/uiRelatedListApi";
+import { api, track, LightningElement, wire } from "lwc";
 import defaultTemplate from "./defaultTemplate";
 import EVENT_CREATED_DATE_FIELD from "@salesforce/schema/Event.CreatedDate";
 import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
 import EVENT_START_DATE_FIELD from "@salesforce/schema/Event.StartDateTime";
 import EVENT_SUBJECT_FIELD from "@salesforce/schema/Event.Subject";
 import lightningCardTemplate from "./cardTemplate";
+import getRecords from "@salesforce/apex/CalendarController.getRecords";
 
 export default class RecordCalendar extends LightningElement {
   @api iconName = "standard:event";
@@ -15,8 +14,8 @@ export default class RecordCalendar extends LightningElement {
   @api relatedListName = "Events";
   @api title = "Record Event Calendar";
   @api useLightningCard = false;
-
-  weeks = [];
+  @track weeks = [];
+  eventData = [];
 
   @api
   get value() {
@@ -29,7 +28,7 @@ export default class RecordCalendar extends LightningElement {
     for (const week of this.weeks) {
       for (const day of week.days) {
         const event = day.events.find(
-          (e) => getFieldValue(e, EVENT_ID_FIELD) === eventId
+          (e) => e[EVENT_ID_FIELD.fieldApiName] === eventId
         );
         if (event) {
           return day.date;
@@ -56,7 +55,7 @@ export default class RecordCalendar extends LightningElement {
     return this.useLightningCard ? lightningCardTemplate : defaultTemplate;
   }
 
-  @wire(getRelatedListRecords, {
+  @wire(getRecords, {
     parentRecordId: "$recordId",
     relatedListId: "$relatedListName",
     fields: [
@@ -64,10 +63,11 @@ export default class RecordCalendar extends LightningElement {
       EVENT_START_DATE_FIELD.fieldApiName,
       EVENT_CREATED_DATE_FIELD.fieldApiName
     ],
-    sortBy: [EVENT_CREATED_DATE_FIELD.fieldApiName]
+    sortBy: EVENT_CREATED_DATE_FIELD.fieldApiName
   })
   wiredRelatedEvents({ error, data }) {
     if (data) {
+      this.eventData = data;
       this._processEventData(data);
     } else if (error) {
       console.error("Error fetching related events:", error);
@@ -75,19 +75,25 @@ export default class RecordCalendar extends LightningElement {
   }
 
   _processEventData(eventData) {
-    if (!eventData || !eventData.records) {
+    if (!eventData) {
       return;
     }
 
     // Map the event data to the calendar structure
-    for (const record of eventData.records) {
-      const eventDate = getFieldValue(record, EVENT_START_DATE_FIELD);
+    for (const record of eventData) {
+      const eventDate = new Date(record[EVENT_START_DATE_FIELD.fieldApiName]);
       const week = this._getWeekForDate(eventDate);
 
       if (week) {
         week.days[eventDate.getDay()].events.push(record);
+        week.days[eventDate.getDay()].css = this._setDayCss(
+          week.days[eventDate.getDay()]
+        );
       }
     }
+
+    // refresh calendar
+    this.generateCalendar(this.refDate, 0, this.eventData);
   }
 
   _getWeekForDate(dateRef) {
@@ -100,15 +106,8 @@ export default class RecordCalendar extends LightningElement {
       const startOfWeek = week.days[0].date;
       const endOfWeek = week.days[6].date;
       const isSameDate = dateRef >= startOfWeek && dateRef <= endOfWeek;
-      // console.log(startOfWeek, endOfWeek, dateRef, isSameDate);
       return isSameDate;
     });
-  }
-
-  connectedCallback() {
-    // on load, the component generates the calendar list of items for the weeks
-    // on the current month and its days on the week.
-    this.generateCalendar();
   }
 
   /**
@@ -116,7 +115,7 @@ export default class RecordCalendar extends LightningElement {
    * @param {Date} [targetDate=new Date()] - The date to generate the calendar for. The month and year of this date will be used.
    * @param {number} [startOfWeek=0] - The starting day of the week (0 for Sunday, 1 for Monday, etc.).
    */
-  generateCalendar(targetDate = new Date(), startOfWeek = 0) {
+  generateCalendar(targetDate = new Date(), startOfWeek = 0, events = []) {
     const date = new Date(targetDate);
     const year = date.getFullYear();
     const month = date.getUTCMonth();
@@ -141,11 +140,21 @@ export default class RecordCalendar extends LightningElement {
     const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
+      const dayDate = new Date(currentDate);
       const day = {
-        date: new Date(currentDate),
+        date: dayDate,
         day: currentDate.getDate(),
         label: currentDate.getDate(),
-        events: []
+        events: events.filter((event) => {
+          const eventDate = new Date(
+            event[EVENT_START_DATE_FIELD.fieldApiName]
+          );
+          const isMatch =
+            eventDate.getUTCDate() === dayDate.getUTCDate() &&
+            eventDate.getUTCMonth() === dayDate.getUTCMonth() &&
+            eventDate.getUTCFullYear() === dayDate.getUTCFullYear();
+          return isMatch;
+        })
       };
       day.isCurrentMonth = currentDate.getMonth() === month;
       day.isToday =
@@ -153,7 +162,7 @@ export default class RecordCalendar extends LightningElement {
         day.date.getUTCMonth() === this.refDate.getUTCMonth() &&
         day.date.getUTCDate() === this.refDate.getUTCDate();
 
-      day.css = this._getDayCss(day);
+      day.css = this._setDayCss(day);
 
       currentWeek.days.push(day);
 
@@ -166,33 +175,25 @@ export default class RecordCalendar extends LightningElement {
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    // Preserve existing events when regenerating the calendar
-    if (this.weeks && this.weeks.length > 0) {
-      for (let i = 0; i < weeks.length; i++) {
-        if (this.weeks[i]) {
-          for (let j = 0; j < weeks[i].days.length; j++) {
-            const oldDay = this.weeks[i].days[j];
-            const newDay = weeks[i].days[j];
-            // If the dates match, preserve the events
-            if (
-              oldDay &&
-              newDay &&
-              oldDay.date.getTime() === newDay.date.getTime()
-            ) {
-              newDay.events = oldDay.events;
-            }
-          }
-        }
-      }
-    }
     this.weeks = weeks;
   }
 
-  _getDayCss(day) {
-    return day.isCurrentMonth
-      ? day.isToday
-        ? "slds-is-today"
-        : "slds-day"
-      : "slds-day_adjacent-month";
+  _setDayCss(day) {
+    const classes = [];
+
+    if (day.isCurrentMonth) {
+      if (day.events.length > 0) {
+        classes.push("slds-is-selected");
+      }
+
+      if (day.isToday) {
+        classes.push("slds-is-today");
+      }
+    } else {
+      classes.push("slds-day_adjacent-month");
+    }
+
+    const result = classes.join(" ");
+    return result;
   }
 }
