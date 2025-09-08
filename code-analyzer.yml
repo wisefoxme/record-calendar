@@ -1,0 +1,7 @@
+engines:
+  eslint:
+    # need to explicitly set the config file from ESLint so that Sev errors
+    # are correctly ignored on tests (otherwise Code Analyzer thinks that tests
+    # are actual components and starts pointing out issues on them that don't
+    # apply to the actual tests)
+    eslint_config_file: eslint.config.js
