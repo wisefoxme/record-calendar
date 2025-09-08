@@ -105,7 +105,7 @@ export default class RecordCalendar extends LightningElement {
     }
 
     // refresh calendar
-    this.generateCalendar(this.refDate, 0, this.eventData);
+    this._generateCalendar(this.refDate, 0, this.eventData);
   }
 
   _getWeekForDate(dateRef) {
@@ -127,7 +127,7 @@ export default class RecordCalendar extends LightningElement {
    * @param {Date} [targetDate=new Date()] - The date to generate the calendar for. The month and year of this date will be used.
    * @param {number} [startOfWeek=0] - The starting day of the week (0 for Sunday, 1 for Monday, etc.).
    */
-  generateCalendar(targetDate = new Date(), startOfWeek = 0, events = []) {
+  _generateCalendar(targetDate = new Date(), startOfWeek = 0, events = []) {
     const date = new Date(targetDate);
     const year = date.getFullYear();
     const month = date.getUTCMonth();
