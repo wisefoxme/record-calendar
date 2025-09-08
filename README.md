@@ -2,6 +2,12 @@
 
 This repository contains the implementation of a Lightning Web Component for displaying data in a calendar in Salesforce.
 
+> [!NOTE]
+>
+> This component reads from the Events object only.
+
+![](./assets/screenshot.png)
+
 ## Installation
 
 ### Option 1: With the Salesfoce CLI only
