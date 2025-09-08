@@ -162,4 +162,82 @@ describe("c-record-calendar", () => {
     expect(events).toHaveLength(1);
     expect(events[0][EVENT_ID_FIELD.fieldApiName]).toBe("event-2");
   });
+
+  it("should show the current month's label", async () => {
+    // Arrange
+    const element = createElement("c-record-calendar", {
+      is: RecordCalendar
+    });
+    const septemberLabel = SEP_FIFTEEN.toLocaleString("default", {
+      month: "long"
+    });
+    const yearNumber = SEP_FIFTEEN.getFullYear();
+
+    element.recordId = DUMMY_RECORD_ID;
+    element.refDate = SEP_FIFTEEN;
+
+    // Act
+    document.body.appendChild(element);
+
+    getRecords.emit(EVENTS);
+
+    await Promise.resolve();
+
+    // Assertions
+    // Should show the month name
+    const monthNameElement = element.shadowRoot.querySelector(
+      "h2[data-id='pickerDaySelected-month']"
+    );
+
+    expect(monthNameElement).not.toBeNull();
+    expect(monthNameElement.textContent).toBe(
+      `${septemberLabel} ${yearNumber}`
+    );
+  });
+
+  it("should show the previous and next month's buttons, and change months accordingly", async () => {
+    // Arrange
+    const element = createElement("c-record-calendar", {
+      is: RecordCalendar
+    });
+    element.recordId = DUMMY_RECORD_ID;
+    element.refDate = SEP_FIFTEEN;
+
+    // Act
+    document.body.appendChild(element);
+
+    getRecords.emit(EVENTS);
+
+    await Promise.resolve();
+
+    // Assert
+    const prevButton = element.shadowRoot.querySelector(
+      "lightning-button-icon[data-id='prevMonthBtn']"
+    );
+    const nextButton = element.shadowRoot.querySelector(
+      "lightning-button-icon[data-id='nextMonthBtn']"
+    );
+
+    expect(prevButton).not.toBeNull();
+    expect(nextButton).not.toBeNull();
+
+    // on previous and next month's, when clicked, the numbers are reset
+    // and slds-is-today isn't applied
+
+    prevButton.click();
+    await Promise.resolve();
+    const dateTableCellAugust =
+      element.shadowRoot.querySelectorAll("td.slds-is-today");
+
+    expect(dateTableCellAugust).toHaveLength(0);
+
+    nextButton.click();
+    nextButton.click();
+    await Promise.resolve();
+
+    const dateTableCellOctober =
+      element.shadowRoot.querySelectorAll("td.slds-is-today");
+
+    expect(dateTableCellOctober).toHaveLength(0);
+  });
 });

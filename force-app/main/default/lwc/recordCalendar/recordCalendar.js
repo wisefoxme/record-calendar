@@ -20,6 +20,14 @@ export default class RecordCalendar extends LightningElement {
   wiredEventResult;
   loading = false;
 
+  get monthName() {
+    return this.refDate.toLocaleString("default", { month: "long" });
+  }
+
+  get yearNumber() {
+    return this.refDate.getFullYear();
+  }
+
   @api
   get value() {
     return this.weeks;
@@ -128,6 +136,7 @@ export default class RecordCalendar extends LightningElement {
    * @param {number} [startOfWeek=0] - The starting day of the week (0 for Sunday, 1 for Monday, etc.).
    */
   _generateCalendar(targetDate = new Date(), startOfWeek = 0, events = []) {
+    const today = new Date();
     const date = new Date(targetDate);
     const year = date.getFullYear();
     const month = date.getUTCMonth();
@@ -170,9 +179,9 @@ export default class RecordCalendar extends LightningElement {
       };
       day.isCurrentMonth = currentDate.getMonth() === month;
       day.isToday =
-        day.date.getUTCFullYear() === this.refDate.getUTCFullYear() &&
-        day.date.getUTCMonth() === this.refDate.getUTCMonth() &&
-        day.date.getUTCDate() === this.refDate.getUTCDate();
+        day.date.getUTCFullYear() === today.getUTCFullYear() &&
+        day.date.getUTCMonth() === today.getUTCMonth() &&
+        day.date.getUTCDate() === today.getUTCDate();
 
       day.css = this._setDayCss(day);
 
@@ -216,4 +225,18 @@ export default class RecordCalendar extends LightningElement {
 
     this.loading = false;
   }
+
+  // #region Buttons
+
+  prevMonth() {
+    this.refDate.setMonth(this.refDate.getMonth() - 1);
+    this._generateCalendar(this.refDate, 0, this.eventData);
+  }
+
+  nextMonth() {
+    this.refDate.setMonth(this.refDate.getMonth() + 1);
+    this._generateCalendar(this.refDate, 0, this.eventData);
+  }
+
+  // #endregion
 }

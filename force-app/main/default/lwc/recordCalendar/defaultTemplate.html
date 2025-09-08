@@ -12,6 +12,40 @@
     aria-describedby="datepicker-desc"
   >
     <div id="datepicker-desc" class="slds-assistive-text">Choose a date</div>
+    <div class="slds-datepicker__filter slds-grid">
+      <div
+        class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow"
+      >
+        <div class="slds-align-middle">
+          <lightning-button-icon
+            variant="neutral"
+            title="Previous Month"
+            icon-name="utility:left"
+            aria-label="Previous Month"
+            onclick={prevMonth}
+            data-id="prevMonthBtn"
+          ></lightning-button-icon>
+        </div>
+        <h2
+          aria-atomic="false"
+          aria-live="polite"
+          class="slds-align-middle"
+          data-id="pickerDaySelected-month"
+        >
+          {monthName} {yearNumber}
+        </h2>
+        <div class="slds-align-middle">
+          <lightning-button-icon
+            variant="neutral"
+            title="Next Month"
+            icon-name="utility:right"
+            aria-label="Next Month"
+            onclick={nextMonth}
+            data-id="nextMonthBtn"
+          ></lightning-button-icon>
+        </div>
+      </div>
+    </div>
     <table
       class="slds-table slds-table_cell-buffer"
       role="grid"
