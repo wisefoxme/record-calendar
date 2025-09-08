@@ -40,4 +40,4 @@ This repository contains the implementation of a Lightning Web Component for dis
 - [ ] Add support for time zones
 - [x] Implement controls for viewing other months and years
 - [x] Add labels for translations
-- [ ] Add option to show event count
+- [x] Add option to show event count

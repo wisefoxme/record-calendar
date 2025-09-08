@@ -37,6 +37,7 @@ export default class RecordCalendar extends LightningElement {
   @api relatedListName = "Events";
   @api title = DEFAULT_LABEL;
   @api useLightningCard = false;
+  @api showEventCount = false;
   @track weeks = [];
   eventData = [];
   wiredEventResult;
@@ -47,7 +48,15 @@ export default class RecordCalendar extends LightningElement {
     return new Intl.DateTimeFormat(USER_LOCALE, {
       year: "numeric",
       month: "long"
-    }).format(this.refDate);
+    }).format(new Date(this.refDate));
+  }
+
+  get formattedTitle() {
+    if (this.showEventCount) {
+      return `${this.title} (${this.eventData.length})`;
+    }
+
+    return this.title;
   }
 
   @api
@@ -57,31 +66,29 @@ export default class RecordCalendar extends LightningElement {
 
   @api
   getDateForEvent(eventId) {
-    // searches through the calendar for the event related to the record that has the event ID
-    for (const week of this.weeks) {
-      for (const day of week.days) {
-        const event = day.events.find(
-          (e) => e[EVENT_ID_FIELD.fieldApiName] === eventId
-        );
-        if (event) {
-          return day.date;
-        }
-      }
+    const result = this.eventData.find(
+      (event) => event[EVENT_ID_FIELD.fieldApiName] === eventId
+    )?.[EVENT_START_DATE_FIELD.fieldApiName];
+
+    if (!result) {
+      return null;
     }
 
-    return null;
+    return new Date(result);
   }
 
   @api
   getEventsForDate(dateRef) {
-    const week = this._getWeekForDate(dateRef);
-    if (week) {
-      const day = week.days.find((d) => d.date.getDate() === dateRef.getDate());
-      if (day) {
-        return day.events;
-      }
-    }
-    return [];
+    const result = this.eventData.filter((event) => {
+      const eventDate = new Date(event[EVENT_START_DATE_FIELD.fieldApiName]);
+      return (
+        eventDate.getUTCFullYear() === dateRef.getUTCFullYear() &&
+        eventDate.getUTCMonth() === dateRef.getUTCMonth() &&
+        eventDate.getUTCDate() === dateRef.getUTCDate()
+      );
+    });
+
+    return result;
   }
 
   render() {

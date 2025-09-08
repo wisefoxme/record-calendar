@@ -37,6 +37,13 @@
         default="standard:event"
         description="The icon name for the Lightning Card."
       />
+            <property
+        name="showEventCount"
+        type="Boolean"
+        label="Show Event Count"
+        default="false"
+        description="Whether to show the number of events for the month."
+      />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

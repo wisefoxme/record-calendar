@@ -21,7 +21,6 @@
       >
         <div class="slds-align-middle">
           <lightning-button-icon
-            variant="neutral"
             title={labels.PREVIOUS_MONTH}
             icon-name="utility:left"
             aria-label={labels.PREVIOUS_MONTH}
@@ -35,11 +34,10 @@
           class="slds-align-middle"
           data-id="pickerDaySelected-month"
         >
-          {localeMonthAndYear}
+          <div class="slds-text-title_caps">{localeMonthAndYear}</div>
         </h2>
         <div class="slds-align-middle">
           <lightning-button-icon
-            variant="neutral"
             title={labels.NEXT_MONTH}
             icon-name="utility:right"
             aria-label={labels.NEXT_MONTH}

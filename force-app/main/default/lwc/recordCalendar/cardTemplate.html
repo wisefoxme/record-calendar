@@ -1,5 +1,5 @@
 <template>
-  <lightning-card title={title} icon-name={iconName}>
+  <lightning-card title={formattedTitle} icon-name={iconName}>
     <div lwc:if={loading} class="slds-spinner_container">
       <lightning-spinner
         alternative-text={labels.LOADING}
@@ -22,7 +22,6 @@
         >
           <div class="slds-align-middle">
             <lightning-button-icon
-              variant="neutral"
               title={labels.PREVIOUS_MONTH}
               icon-name="utility:left"
               aria-label={labels.PREVIOUS_MONTH}
@@ -36,11 +35,10 @@
             class="slds-align-middle"
             data-id="pickerDaySelected-month"
           >
-            {localeMonthAndYear}
+            <div class="slds-text-title_caps">{localeMonthAndYear}</div>
           </h2>
           <div class="slds-align-middle">
             <lightning-button-icon
-              variant="neutral"
               title={labels.NEXT_MONTH}
               icon-name="utility:right"
               aria-label={labels.NEXT_MONTH}
