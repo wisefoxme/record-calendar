@@ -33,3 +33,10 @@ This repository contains the implementation of a Lightning Web Component for dis
    ```
 
 3. Authenticate to your Salesforce org using the Salesforce CLI, and deploy it as in option 1.
+
+## TODOs
+
+- [ ] Implement event creation
+- [ ] Add support for time zones
+- [ ] Implement controls for viewing other months and years
+- [ ] Add option to show event count
