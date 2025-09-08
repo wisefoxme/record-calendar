@@ -39,5 +39,5 @@ This repository contains the implementation of a Lightning Web Component for dis
 - [ ] Implement event creation
 - [ ] Add support for time zones
 - [x] Implement controls for viewing other months and years
-- [ ] Add labels for translations
+- [x] Add labels for translations
 - [ ] Add option to show event count
