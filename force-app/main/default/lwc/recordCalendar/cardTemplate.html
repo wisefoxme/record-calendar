@@ -2,18 +2,20 @@
   <lightning-card title={title} icon-name={iconName}>
     <div lwc:if={loading} class="slds-spinner_container">
       <lightning-spinner
-        alternative-text="Loading"
+        alternative-text={labels.LOADING}
         size="small"
-        aria-label="Loading"
+        aria-label={labels.LOADING}
       ></lightning-spinner>
     </div>
     <div
       lwc:else
       class="slds-theme_default slds-datepicker"
-      aria-label="Date Picker"
+      aria-label={labels.DATEPICKER}
       aria-describedby="datepicker-desc"
     >
-      <div id="datepicker-desc" class="slds-assistive-text">Choose a date</div>
+      <div id="datepicker-desc" class="slds-assistive-text">
+        {labels.CHOOSE_A_DATE}
+      </div>
       <div class="slds-datepicker__filter slds-grid">
         <div
           class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow slds-var-m-around_small"
@@ -21,9 +23,9 @@
           <div class="slds-align-middle">
             <lightning-button-icon
               variant="neutral"
-              title="Previous Month"
+              title={labels.PREVIOUS_MONTH}
               icon-name="utility:left"
-              aria-label="Previous Month"
+              aria-label={labels.PREVIOUS_MONTH}
               onclick={prevMonth}
               data-id="prevMonthBtn"
             ></lightning-button-icon>
@@ -39,9 +41,9 @@
           <div class="slds-align-middle">
             <lightning-button-icon
               variant="neutral"
-              title="Next Month"
+              title={labels.NEXT_MONTH}
               icon-name="utility:right"
-              aria-label="Next Month"
+              aria-label={labels.NEXT_MONTH}
               onclick={nextMonth}
               data-id="nextMonthBtn"
             ></lightning-button-icon>
@@ -74,7 +76,7 @@
     </div>
     <lightning-button-icon
       variant="neutral"
-      title="Refresh"
+      title={labels.REFRESH}
       onclick={refreshHandler}
       icon-name="utility:refresh"
       slot="actions"

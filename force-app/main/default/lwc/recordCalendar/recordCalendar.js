@@ -1,5 +1,6 @@
 import { api, track, LightningElement, wire } from "lwc";
 import { refreshApex } from "@salesforce/apex";
+import USER_LOCALE from "@salesforce/i18n/locale";
 import EVENT_CREATED_DATE_FIELD from "@salesforce/schema/Event.CreatedDate";
 import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
 import EVENT_START_DATE_FIELD from "@salesforce/schema/Event.StartDateTime";
@@ -8,20 +9,44 @@ import getRecords from "@salesforce/apex/CalendarController.getRecords";
 import defaultTemplate from "./defaultTemplate";
 import lightningCardTemplate from "./cardTemplate";
 
+// #region labels
+
+import NEXT_MONTH_LABEL from "@salesforce/label/c.wf_cal_NextMonth";
+import PREVIOUS_MONTH_LABEL from "@salesforce/label/c.wf_cal_PreviousMonth";
+import CHOOSE_A_DATE_LABEL from "@salesforce/label/c.wf_cal_ChooseADate";
+import DATEPICKER_LABEL from "@salesforce/label/c.wf_cal_DatePicker";
+import LOADING_LABEL from "@salesforce/label/c.wf_cal_Loading";
+import DEFAULT_LABEL from "@salesforce/label/c.wf_cal_RecordEventCalendarLabel";
+import REFRESH_LABEL from "@salesforce/label/c.wf_cal_Refresh";
+
+// endregion
+
+const LABELS = {
+  NEXT_MONTH: NEXT_MONTH_LABEL,
+  PREVIOUS_MONTH: PREVIOUS_MONTH_LABEL,
+  CHOOSE_A_DATE: CHOOSE_A_DATE_LABEL,
+  DATEPICKER: DATEPICKER_LABEL,
+  LOADING: LOADING_LABEL,
+  REFRESH: REFRESH_LABEL
+};
+
 export default class RecordCalendar extends LightningElement {
   @api iconName = "standard:event";
   @api recordId;
   @api refDate = new Date();
   @api relatedListName = "Events";
-  @api title = "Record Event Calendar";
+  @api title = DEFAULT_LABEL;
   @api useLightningCard = false;
   @track weeks = [];
   eventData = [];
   wiredEventResult;
   loading = false;
+  labels = LABELS;
 
   get monthName() {
-    return this.refDate.toLocaleString("default", { month: "long" });
+    return new Intl.DateTimeFormat(USER_LOCALE, {
+      month: "long"
+    }).format(this.refDate);
   }
 
   get yearNumber() {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>来月</label>
+        <name>wf_cal_NextMonth</name>
+    </customLabels>
+    <customLabels>
+        <label>前月</label>
+        <name>wf_cal_PreviousMonth</name>
+    </customLabels>wf_cal_ChooseADate<customLabels>
+        <label>日付を選択してください</label>
+        <name>wf_cal_ChooseADate</name>
+    </customLabels>
+    <customLabels>
+        <label>日付ピッカー</label>
+        <name>wf_cal_DatePicker</name>
+    </customLabels>
+    <customLabels>
+        <label>読み込み中… </label>
+        <name>wf_cal_Loading</name>
+    </customLabels>
+    <customLabels>
+        <label>イベントカレンダー</label>
+        <name>wf_cal_RecordEventCalendarLabel</name>
+    </customLabels>
+    <customLabels>
+        <label>更新</label>
+        <name>wf_cal_Refresh</name>
+    </customLabels>
+</Translations>

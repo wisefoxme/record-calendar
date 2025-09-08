@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>wf_cal_NextMonth</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Next Month</shortDescription>
+        <value>Next Month</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_PreviousMonth</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Previous Month</shortDescription>
+        <value>Previous Month</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_ChooseADate</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose a Date</shortDescription>
+        <value>Choose a Date</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_DatePicker</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Date picker</shortDescription>
+        <value>Date picker</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_Loading</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_RecordEventCalendarLabel</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record Event Calendar</shortDescription>
+        <value>Record Event Calendar</value>
+    </labels>
+    <labels>
+        <fullName>wf_cal_Refresh</fullName>
+        <categories>lwc, calendar, component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+</CustomLabels>

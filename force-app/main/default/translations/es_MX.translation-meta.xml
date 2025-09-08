@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>Próximo Mes</label>
+        <name>wf_cal_NextMonth</name>
+    </customLabels>
+    <customLabels>
+        <label>Mes Anterior</label>
+        <name>wf_cal_PreviousMonth</name>
+    </customLabels>
+    <customLabels>
+        <label>Elige una Fecha</label>
+        <name>wf_cal_ChooseADate</name>
+    </customLabels>
+    <customLabels>
+        <label>Selector de Fecha</label>
+        <name>wf_cal_DatePicker</name>
+    </customLabels>
+    <customLabels>
+        <label>Cargando...</label>
+        <name>wf_cal_Loading</name>
+    </customLabels>
+    <customLabels>
+        <label>Calendario de Eventos</label>
+        <name>wf_cal_RecordEventCalendarLabel</name>
+    </customLabels>
+    <customLabels>
+        <label>Actualizar</label>
+        <name>wf_cal_Refresh</name>
+    </customLabels>
+</Translations>
