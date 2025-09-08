@@ -43,14 +43,11 @@ export default class RecordCalendar extends LightningElement {
   loading = false;
   labels = LABELS;
 
-  get monthName() {
+  get localeMonthAndYear() {
     return new Intl.DateTimeFormat(USER_LOCALE, {
+      year: "numeric",
       month: "long"
     }).format(this.refDate);
-  }
-
-  get yearNumber() {
-    return this.refDate.getFullYear();
   }
 
   @api

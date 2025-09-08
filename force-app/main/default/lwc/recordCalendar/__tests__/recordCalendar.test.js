@@ -1,5 +1,6 @@
 import { createElement } from "@lwc/engine-dom";
 import RecordCalendar from "c/RecordCalendar";
+import USER_LOCALE from "@salesforce/i18n/locale";
 import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
 import EVENT_START_DATE_TIME_FIELD from "@salesforce/schema/Event.StartDateTime";
 import EVENT_SUBJECT_FIELD from "@salesforce/schema/Event.Subject";
@@ -8,6 +9,7 @@ import getRecords from "@salesforce/apex/CalendarController.getRecords";
 const SEP_FIFTEEN = new Date(2025, 8, 15);
 const SEP_FIRST = new Date(2025, 8, 1);
 const DUMMY_RECORD_ID = "001xx000003DGbYAAW";
+const TEST_LOCALE = "ja-JP";
 const EVENTS = [
   {
     [EVENT_ID_FIELD.fieldApiName]: "event-1",
@@ -20,6 +22,16 @@ const EVENTS = [
     [EVENT_START_DATE_TIME_FIELD.fieldApiName]: SEP_FIFTEEN.toISOString()
   }
 ];
+
+jest.mock(
+  "@salesforce/i18n/locale",
+  () => {
+    return {
+      default: TEST_LOCALE
+    };
+  },
+  { virtual: true }
+);
 
 jest.mock(
   "@salesforce/apex/CalendarController.getRecords",
@@ -168,10 +180,10 @@ describe("c-record-calendar", () => {
     const element = createElement("c-record-calendar", {
       is: RecordCalendar
     });
-    const septemberLabel = SEP_FIFTEEN.toLocaleString("default", {
+    const expectedLabel = new Intl.DateTimeFormat(TEST_LOCALE, {
+      year: "numeric",
       month: "long"
-    });
-    const yearNumber = SEP_FIFTEEN.getFullYear();
+    }).format(element.refDate);
 
     element.recordId = DUMMY_RECORD_ID;
     element.refDate = SEP_FIFTEEN;
@@ -189,10 +201,9 @@ describe("c-record-calendar", () => {
       "h2[data-id='pickerDaySelected-month']"
     );
 
+    expect(USER_LOCALE).toBe(TEST_LOCALE);
     expect(monthNameElement).not.toBeNull();
-    expect(monthNameElement.textContent).toBe(
-      `${septemberLabel} ${yearNumber}`
-    );
+    expect(monthNameElement.textContent).toBe(expectedLabel);
   });
 
   it("should show the previous and next month's buttons, and change months accordingly", async () => {
