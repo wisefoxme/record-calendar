@@ -13,7 +13,8 @@ module.exports = defineConfig([
   {
     ignores: [
       "force-app/main/default/staticresources/**", // Ignore third party libraries
-      "force-app/test/jest-mocks/lightning/modal.js" // Ignore modal mock as it contains decorators (unsupported by ESLint)
+      "force-app/test/jest-mocks/lightning/modal.js", // Ignore modal mock as it contains decorators (unsupported by ESLint)
+      "force-app/wisefoxme/**" // Ignore linked folder created by postinstall script
     ]
   },
 
