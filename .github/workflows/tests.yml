@@ -17,8 +17,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: List LWC directory
-        run: ls -R force-app/main/default/lwc
       - name: Install dependencies
         run: npm ci
       - name: Run the tests
