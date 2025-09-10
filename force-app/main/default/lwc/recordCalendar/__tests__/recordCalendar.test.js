@@ -1,5 +1,5 @@
 import { createElement } from "@lwc/engine-dom";
-import RecordCalendar from "c/RecordCalendar";
+import RecordCalendar from "c/recordCalendar";
 import USER_LOCALE from "@salesforce/i18n/locale";
 import EVENT_ID_FIELD from "@salesforce/schema/Event.Id";
 import EVENT_START_DATE_TIME_FIELD from "@salesforce/schema/Event.StartDateTime";
