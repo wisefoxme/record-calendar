@@ -38,6 +38,7 @@ export default class RecordCalendar extends LightningElement {
   @api title = DEFAULT_LABEL;
   @api useLightningCard = false;
   @api showEventCount = false;
+  @api hideMonthPicker = false;
   @track weeks = [];
   eventData = [];
   wiredEventResult;
@@ -57,6 +58,10 @@ export default class RecordCalendar extends LightningElement {
     }
 
     return this.title;
+  }
+
+  get showMonthPickerButtons() {
+    return !this.hideMonthPicker;
   }
 
   @api

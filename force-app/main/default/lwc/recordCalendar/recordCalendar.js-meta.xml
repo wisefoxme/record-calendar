@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>64.0</apiVersion>
-    <isExposed>true</isExposed>
-    <description>A calendar of available events.</description>
-    <masterLabel>Record Event Calendar</masterLabel>
-    <targets>
-        <target>lightning__RecordPage</target>
-    </targets>
-    <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">
-            <property
+  <apiVersion>64.0</apiVersion>
+  <isExposed>true</isExposed>
+  <description>A calendar of available events.</description>
+  <masterLabel>Record Event Calendar</masterLabel>
+  <targets>
+    <target>lightning__RecordPage</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__RecordPage">
+      <property
         name="relatedListName"
         type="String"
         label="Related List API Name"
         default="Events"
         description="The API name of the related list to display."
       />
-            <property
+      <property
         name="useLightningCard"
         type="Boolean"
         label="Use Lightning Card"
         default="true"
         description="Whether to use a Lightning Card for the component."
       />
-            <property
+      <property
         name="title"
         type="String"
         label="Card Title"
         default="Record Event Calendar"
         description="The title of the Lightning Card."
       />
-            <property
+      <property
         name="iconName"
         type="String"
         label="Card Icon Name"
         default="standard:event"
         description="The icon name for the Lightning Card."
       />
-            <property
+      <property
         name="showEventCount"
         type="Boolean"
         label="Show Event Count"
         default="false"
         description="Whether to show the number of events for the month."
       />
-        </targetConfig>
-    </targetConfigs>
+      <property
+        name="hideMonthPicker"
+        type="Boolean"
+        label="Hide Month Picker"
+        default="false"
+        description="Whether to hide the month picker buttons."
+      />
+    </targetConfig>
+  </targetConfigs>
 </LightningComponentBundle>

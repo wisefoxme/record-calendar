@@ -26,6 +26,7 @@
             aria-label={labels.PREVIOUS_MONTH}
             onclick={prevMonth}
             data-id="prevMonthBtn"
+            lwc:if={showMonthPickerButtons}
           ></lightning-button-icon>
         </div>
         <h2
@@ -43,6 +44,7 @@
             aria-label={labels.NEXT_MONTH}
             onclick={nextMonth}
             data-id="nextMonthBtn"
+            lwc:if={showMonthPickerButtons}
           ></lightning-button-icon>
         </div>
       </div>
