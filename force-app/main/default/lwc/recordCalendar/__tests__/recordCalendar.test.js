@@ -44,6 +44,22 @@ jest.mock(
   { virtual: true }
 );
 
+jest.mock(
+  "@salesforce/schema/Event.Id",
+  () => ({ default: { fieldApiName: "Id" } }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/schema/Event.StartDateTime",
+  () => ({ default: { fieldApiName: "StartDateTime" } }),
+  { virtual: true }
+);
+jest.mock(
+  "@salesforce/schema/Event.Subject",
+  () => ({ default: { fieldApiName: "Subject" } }),
+  { virtual: true }
+);
+
 describe("c-record-calendar", () => {
   afterEach(() => {
     // The jsdom instance is shared across test cases in a single file so reset the DOM
