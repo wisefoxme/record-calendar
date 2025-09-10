@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  runLWCTests:
+    name: Run Lightning Web Component tests
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container: salesforce/cli:latest-full
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run the tests
+        run: npm run test:unit

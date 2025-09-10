@@ -78,6 +78,12 @@ function linkAll(sourceDir, destDir, packageName) {
 }
 
 try {
+  // Skip linking if running on CI environment
+  if (process.env.CI === "true") {
+    console.log("Skipping postinstall script in CI environment.");
+    return;
+  }
+
   const sfRoot = findSfRoot(process.env.INIT_CWD || process.cwd());
   const defaultPackagePath = getDefaultPackagePath(sfRoot);
   const destRoot = path.join(sfRoot, defaultPackagePath);
