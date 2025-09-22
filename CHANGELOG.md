@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/wisefoxme/record-calendar/compare/v1.6.0...v1.6.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* resolves issue when calendar loads with no event related to the record ([de970e5](https://github.com/wisefoxme/record-calendar/commit/de970e5d2e79ebd4ffe9272eab09259e07bd12c7))
+
 ## [1.6.0](https://github.com/wisefoxme/record-calendar/compare/v1.5.0...v1.6.0) (2025-09-10)
 
 
