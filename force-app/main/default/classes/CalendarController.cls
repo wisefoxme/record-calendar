@@ -10,7 +10,7 @@ public with sharing class CalendarController {
       // Query the related records
       Schema.SObjectType sot = parentRecordId.getSobjectType();
       String query =
-        'SELECT (SELECT ' +
+        'SELECT Id, (SELECT ' +
         String.join(fields, ', ') +
         ' FROM ' +
         relatedListId +
@@ -19,7 +19,12 @@ public with sharing class CalendarController {
         ' WHERE Id = :parentRecordId' +
         ' ORDER BY ' +
         sortBy;
-      return Database.query(query.escapeJava())[0].getSObjects(relatedListId);
+      Object result = Database.query(query.escapeJava())[0]
+        .getSObjects(relatedListId);
+      if (result == null) {
+        return new List<SObject>();
+      }
+      return (List<SObject>) result;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

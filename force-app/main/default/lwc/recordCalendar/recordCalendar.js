@@ -103,6 +103,7 @@ export default class RecordCalendar extends LightningElement {
   connectedCallback() {
     this.loading = true;
   }
+
   @wire(getRecords, {
     parentRecordId: "$recordId",
     relatedListId: "$relatedListName",
